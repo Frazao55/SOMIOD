@@ -1,0 +1,172 @@
+'
+POST http://<domain:port>/api/somiod
+
+<resource res_type="application">
+	<name>Ventilation</name>
+</resource>
+'
+# Create a resource of type Application.
+curl -i -X POST -H "Content-Type: application/xml" -d "<resource res_type='application'><name>Ventilation</name></resource>" http://<domain:port>/api/somiod
+
+
+'
+DELETE http://<domain:port>/api/somiod/applicationX
+'
+# Delete a resource of type Application.
+curl -i -X DELETE http://<domain:port>/api/somiod/applicationX
+
+'
+PUT http://<domain:port>/api/somiod/applicationX
+
+<resource res_type="application">
+	<name>Ventilation</name>
+</resource>
+'
+# Modify a resource of type Application.
+curl -i -X PUT -H "Content-Type: application/xml" -d "<resource res_type='application'><name>Ventilation</name></resource>" http://<domain:port>/api/somiod/applicationX
+
+
+'
+GET http://<domain:port>/api/somiod/applicationX
+'
+# Get a resource of type Application.
+curl -i -X GET http://<domain:port>/api/somiod/applicationX
+
+
+///////////////////////////////////////////////////////////////Container/////////////////////////////////////////////////////////////////////////////////
+
+
+'
+POST http://<domain:port>/api/somiod/applicationX
+
+<resource res_type="container">
+	<name>fan</name>
+</resource>
+'
+# Create a resource of type Container and associate it as a descendant to a resource of type Application.
+curl -i -X POST -H "Content-Type: application/xml" -d "<resource res_type='container'><name>fan</name></resource>" http://<domain:port>/api/somiod/applicationX
+
+'
+DELETE http://<domain:port>/api/somiod/applicationX/containerY
+'
+# Delete a resource of type Container.
+curl -i -X DELETE http://<domain:port>/api/somiod/applicationX/containerY
+
+
+'
+PUT http://<domain:port>/api/somiod/applicationX/containerY
+
+<resource res_type="container">
+	<name>fan</name>
+</resource>
+'
+# Modify a resource of type Container.
+curl -i -X PUT -H "Content-Type: application/xml" -d "<resource res_type='container'><name>fan</name></resource>" http://<domain:port>/api/somiod/applicationX/containerY
+
+
+'
+GET http://<domain:port>/api/somiod/applicationX/containerY
+'
+# Get a resource of type Container.
+curl -i -X GET http://<domain:port>/api/somiod/applicationX/containerY
+
+
+///////////////////////////////////////////////////////////////Subscription//////////////////////////////////////////////////////////////////////////////
+
+
+'
+POST http://<domain:port>/api/somiod/applicationX/containerY
+
+<resource res_type="subscription">
+	<name>subscription1</name>
+	<feature>PowerState</feature>
+	<event>1</event>
+	<endpoint>mqtt://127.0.0.1</endpoint>
+</resource>
+'
+# Create a resource of type Subscription and associate it as a descendant with a given resource of type Container.
+curl -i -X POST -H "Content-Type: application/xml" -d "<resource res_type='subscription'><name>subscription1</name><feature>PowerState</feature><event>1</event><endpoint>mqtt://127.0.0.1</endpoint></resource>" http://<domain:port>/api/somiod/applicationX/containerY
+
+'
+DELETE http://<domain:port>/api/somiod/applicationX/containerY/sub/{name}
+'
+# Delete a resource of type Subscription.
+curl -i -X DELETE http://<domain:port>/api/somiod/applicationX/containerY/sub/subscriptionZ
+
+'
+GET http://<domain:port>/api/somiod/applicationX/containerY/sub/{name} 
+'
+# Get a Subscription resource.
+curl -i -X GET http://<domain:port>/api/somiod/applicationX/containerY/sub/subscriptionZ
+
+
+
+///////////////////////////////////////////////////////////////Data//////////////////////////////////////////////////////////////////////////////////////
+
+
+'
+POST http://<domain:port>/api/somiod/applicationX/containerY
+
+<resource res_type="data">
+	<name>Data1</name>
+	<content>
+		<feature>PowerState</feature>
+		<value>ON</value>
+	</content>
+</resource>
+'
+# Create a resource of type Data and associate it as a descendant with a given resource of type Container.
+curl -i -X POST -H "Content-Type: application/xml" -d "<resource res_type='data'><name>Data1</name><content><feature>PowerState</feature><value>ON</value></content></resource>" http://<domain:port>/api/somiod/applicationX/containerY
+
+
+'
+DELETE http://<domain:port>/api/somiod/applicationX/containerY/data/{name}
+'
+# Delete a resource of type Date.
+curl -i -X DELETE http://<domain:port>/api/somiod/applicationX/containerY/data/dataZ
+
+'
+GET http://<domain:port>/api/somiod/applicationX/containerY/data/{name} 
+'
+# Get a resource of type Data.
+curl -i -X GET http://<domain:port>/api/somiod/applicationX/containerY/data/dataZ
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/* OPERATIONS DISCOVER */
+
+#The discover operation is represented by the GET HTTP verb and by the presence of an HTTP header called "somiod-discover: <res_type>" 
+#Where <res_type> could be application, container, data, and subscription.
+
+'
+GET http://<domain:port>/api/somiod
+somiod-discover: application
+'
+# Get the names of all resources of type Application.
+curl -i -X GET -H "somiod-discover: application" http://<domain:port>/api/somiod
+
+
+'
+GET http://<domain:port>/api/somiod/applicationX
+somiod-discover: container
+'
+# Get the names of all resources of type Container that are descendants of a given resource of type Application.
+curl -i -X GET -H "somiod-discover: container" http://<domain:port>/api/somiod/applicationX
+
+
+'
+GET http://<domain:port>/api/somiod/applicationX/containerY
+somiod-discover: subscription
+'
+# Get the names of all resources of type Subscription that are descendants of a given resource of type Container.
+curl -i -X GET -H "somiod-discover: subscription" http://<domain:port>/api/somiod/applicationX/containerY
+
+
+'
+GET http://<domain:port>/api/somiod/applicationX/containerY
+somiod-discover: data
+'
+# Get the names of all resources of type Data that are descendants of a given resource of type Container.
+curl -i -X GET -H "somiod-discover: data" http://<domain:port>/api/somiod/applicationX/containerY
