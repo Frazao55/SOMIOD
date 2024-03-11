@@ -1,3 +1,7 @@
+# Disclaimer
+
+This project was carried out as part of the Systems Integration course.
+
 # About This Project
 
 IoT addresses social issues such as climate change, but current solutions suffer from interoperability challenges due to their reliance on private protocols and cloud services. This project aims to develop middleware for the standardized exchange of IoT data, promoting social, environmental and economic benefits.
