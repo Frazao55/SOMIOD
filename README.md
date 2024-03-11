@@ -1,6 +1,5 @@
 # Disclaimer
-
-This project was carried out as part of the Systems Integration course.
+This project was carried out as part of the Systems Integration course in computer engineering at the Polytechnic Institute of Leiria.
 
 # About This Project
 
